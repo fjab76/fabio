@@ -74,6 +74,7 @@
 			</table>
 			<?php endif; ?>
 			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a>
+			<a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a>
 	<?php 
 
 		

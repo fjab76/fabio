@@ -15,7 +15,7 @@
 			$result = $pdo->query($sql);
 	      $row = $result->fetch();
 	      
-	      return ($row[0]);	
+	      return ($row[0]>0);	
 		}
 	
 		function getOrderCodeByStatusId($statusId) {
@@ -46,6 +46,51 @@
 			
 			$pdo->exec("insert into order_status (order_id,status_date,status_description) values ($orderId,'$statusDate','$orderStatus')");				
 		}	
+		
+		function deletetOrder($orderCode) {
+			
+			global $pdo;
+
+			$pdo->exec("delete status from `order` ord,order_status status where ord.id=status.order_id and ord.order_code='$orderCode'");
+			$pdo->exec("delete from `order` where order_code='$orderCode'");
+						
+		}	
+		
+		function deleteOrderStatus($statusId) {
+			
+			global $pdo;
+			
+			$sql = "delete from order_status where id=$statusId";
+			$pdo->exec($sql);
+		}
+	
+		function insertOrder($orderCode,$statusDate,$orderStatus) {
+			
+			global $pdo;
+			
+			$pdo->exec("insert into `order` (order_code) values ('$orderCode')");
+			$lastId = $pdo->lastInsertId();	
+			$pdo->exec("insert into order_status (order_id,status_date,status_description) values ($lastId,'$statusDate','$orderStatus')");
+		}
+	
+		function getOrderStatusByOrderCode($orderCode) {
+			
+			global $pdo;
+			
+			$sql = "select status.id,status.status_date,status.status_description 
+			from `order` ord join order_status status on ord.id=status.order_id where ord.order_code='$orderCode'";
+			$result = $pdo->query($sql);
+			return $result;
+		}
+	
+		function getOrderStatusByStatusId($statusId) {
+			
+			global $pdo;
+			
+			$sql = "select status.status_date,status.status_description from order_status status where status.id=$statusId";
+			$result = $pdo->query($sql);
+			return $result;
+		}
 		
 		include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.php';
 	
@@ -88,13 +133,11 @@
 					if($successValidation){
 							
 						//check if order code already exists
-						if(existOrder($orderCode)>0) {
+						if(existOrder($orderCode)) {
 							$message = "Pedido $orderCode ja existe";
 						}		
 						else {
-							$pdo->exec("insert into `order` (order_code) values ('$orderCode')");
-							$lastId = $pdo->lastInsertId();	
-							$pdo->exec("insert into order_status (order_id,status_date,status_description) values ($lastId,'$statusDate','$orderStatus')");
+							insertOrder($orderCode,$statusDate,$orderStatus);
 							$message = "Pedido $orderCode foi insertado correctamente";							
 						}
 					}	
@@ -110,15 +153,12 @@
 					    	$orderCode = test_input($_POST["order_code"]);
 					    
 						    //check if order code already exists
-						    $orderId = existOrder($orderCode);
-							if($orderId<1) {
+							if(!existOrder($orderCode)) {
 								$message = "Pedido $orderCode no existe";
 							}
 							else {
 								$thereIsOrder = true;						
-								$sql = "select status.id,status.status_date,status.status_description 
-								from `order` ord join order_status status on ord.id=status.order_id where ord.order_code='$orderCode'";
-								$result = $pdo->query($sql);													
+								$result = getOrderStatusByOrderCode($orderCode);													
 							}
 					  }
 				}
@@ -152,9 +192,7 @@
 						$message = "Status foi actualizado correctamente";	
 						
 						$thereIsOrder = true;
-						$sql = "select status.id,status.status_date,status.status_description 
-						from `order` ord join order_status status on ord.id=status.order_id where ord.order_code='$orderCode'";
-						$result = $pdo->query($sql);												
+						$result = getOrderStatusByOrderCode($orderCode);												
 					}	
 				}
 				elseif($_POST["order_action"]=="addStatus") {
@@ -184,9 +222,7 @@
 						$message = "Status foi insertado correctamente";	
 						
 						$thereIsOrder = true;
-						$sql = "select status.id,status.status_date,status.status_description 
-						from `order` ord join order_status status on ord.id=status.order_id where ord.order_code='$orderCode'";
-						$result = $pdo->query($sql);												
+						$result = getOrderStatusByOrderCode($orderCode);												
 					}	
 				}
 			}
@@ -196,65 +232,37 @@
 				$orderAction = $output["order_action"];			
 					
 				//delete order status
-				if($orderAction=="delete") {
+				if($orderAction=="delete") {					
+								
+					//retrieve order code
+					$statusId = $output['status_id'];								
+					$orderCode = getOrderCodeByStatusId($statusId );					
+				
+													
+					deleteOrderStatus($statusId);	
+					$message = "Status foi eliminado correctamente";
 					
-					/*if($_POST["submit"]=="delete_order"){						
-						$orderId = $_POST['order_id'];
-						$sql = "delete * from order_status where order_id=$orderId";
-						$pdo->exec($sql);
-						
-						$sql = "delete * from `order` where id=$orderId";
-						$pdo->exec($sql);							
-								
-						$message = "Pedido $orderCode foi eliminado correctamente";											
-					}*/
-					//elseif($_POST["submit"]=="delete_status"){
-						
-						//$statusToBeDeleted = $_POST["statusList"];
-						//if(!empty($statusToBeDeleted)) {
-							//$num = count($statusToBeDeleted);
-							//for($i=0; $i<$num; $i++) {	
-								
-								//retrieve order code
-								$statusId = $output['status_id'];								
-								$orderCode = getOrderCodeByStatusId($statusId );					
-							
-																
-								$sql = "delete from order_status where id=$statusId";
-								$pdo->exec($sql);		
-								$message = "Status foi eliminado correctamente";
-								
-								$thereIsOrder = true;
-								$sql = "select status.id,status.status_date,status.status_description 
-								from `order` ord join order_status status on ord.id=status.order_id where ord.order_code='$orderCode'";
-								$result = $pdo->query($sql);													
-							//}
-						//}
-					//}
+					$thereIsOrder = true;
+					$result = getOrderStatusByOrderCode($orderCode);		
+																										
+				}
+				elseif($orderAction=="deleteOrder") {					
+					
+					$orderCode = $output["order_code"];		
+					deletetOrder($orderCode);	
+																										
 				}
 				elseif($orderAction=="edit"){
 										
 					$statusId = $output['status_id'];								
 					$orderCode = getOrderCodeByStatusId($statusId);
 							
-					$sql = "select status.status_date,status.status_description 
-					from order_status status where status.id=$statusId";
-					$result = $pdo->query($sql);					
+					$result = getOrderStatusByStatusId($statusId);					
 					$row = $result->fetch();
 					
 					$statusDate = $row['status_date'];
 					$statusDescription = $row['status_description'];
 										
-					//updating statuses
-					/*$numStatuses = $_POST["numStatuses"];
-					for($i=0; $i<$numStatuses; $i++) {							
-						$statusDate = 	"status_date".$i;
-						$statusDescription = "status_description".$i;
-						$statusId = "status_id".$i;
-						$sql = "update order_status set status_date=$_POST[$statusDate] , status_description=$_POST[$statusDescription] where id=$_POST[$statusId]";
-						$pdo->exec($sql);		
-						$message = "Statuses foi actualizado correctamente";											
-					}*/
 				}	
 				elseif($orderAction=="addStatus"){
 																	
