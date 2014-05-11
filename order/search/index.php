@@ -36,6 +36,7 @@
 			
 			
 			<h1 class="title">Busque pedido</h1>
+			<?php !empty($username) or die("Please, log in to access to this functionality") ?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Código do Pedido: <input type="text" name="order_code" value="<?php echo $orderCode; ?>">

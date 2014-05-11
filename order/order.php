@@ -95,13 +95,16 @@
 		include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.php';
 	
 		// define variables and set to empty values
-		$orderCodeErr = $statusDateErr = $orderStatusErr = "";
-		$orderId = $orderCode = $statusDate = $orderStatus = "";
+		$usernameErr = $orderCodeErr = $statusDateErr = $orderStatusErr = "";
+		$username = $orderId = $orderCode = $statusDate = $orderStatus = "";
 		$orderAction = $message = "";
 		$thereIsOrder = $successValidation = false;
 		
 		try{
 		
+			session_start();
+			$username = $_SESSION['username'];			
+			
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {				
 				
 				//insert new order
@@ -228,8 +231,8 @@
 					}	
 				}
 			}
-			elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-
+			elseif ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($username)) {
+		
 				parse_str($_SERVER['QUERY_STRING'], $output);	
 				$orderAction = $output["order_action"];			
 					

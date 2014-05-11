@@ -35,6 +35,7 @@
 		<div id="content">
 			
 			<h1 class="title">Actualiza pedido</h1>
+			<?php !empty($username) or die("Please, log in to access to this functionality") ?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="/order/search/"/>
 				Código do Pedido: <?php echo $orderCode; ?> <br>

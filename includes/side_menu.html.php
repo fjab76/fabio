@@ -14,9 +14,11 @@
 	</div>
 	
 	<div id="login">
+		User:<?php echo "{$_SESSION['username']}" ?><br/>
 		<a href="/user/signup" >sign up</a><br/>
-		<a href="/user/login" >sign in</a>
+		<a href="/user/login" >login</a>
 		<a href="/user/pwd_change" >change password</a>
+		<a href="/user/logout" >logout</a>
 	</div>
 </div>
 	

@@ -35,7 +35,11 @@
 		<div id="content">
 			
 			<h1 class="title">Change password</h1>
-			<?php empty($username) or die("user needs to be logged in") ?>
+			<?php 
+				if ($_SERVER["REQUEST_METHOD"] == "GET") {
+					!empty($username) or die("user needs to be logged in") ;
+				}
+			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Old Password: <input type="password" name="old_pwd">
