@@ -138,6 +138,8 @@
 						}		
 						else {
 							insertOrder($orderCode,$statusDate,$orderStatus);
+							$result = getOrderStatusByOrderCode($orderCode);
+							$thereIsOrder = true;
 							$message = "Pedido $orderCode foi insertado correctamente";							
 						}
 					}	

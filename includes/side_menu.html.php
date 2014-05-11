@@ -12,5 +12,11 @@
 		<a href="/order/insert" >insert</a><br/>
 		<a href="/order/search" >search</a>
 	</div>
+	
+	<div id="login">
+		<a href="/user/signup" >sign up</a><br/>
+		<a href="/user/login" >sign in</a>
+		<a href="/user/pwd_change" >change password</a>
+	</div>
 </div>
 	

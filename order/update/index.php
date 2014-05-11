@@ -38,6 +38,7 @@
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="/order/search/"/>
 				Código do Pedido: <?php echo $orderCode; ?> <br>
+				<span class="error">* <?php echo $orderCodeErr;?></span><br>
 				Data: <input type="date" name="status_date" value="<?php echo $statusDate; ?>"/>
 				<span class="error">* <?php echo $statusDateErr;?></span><br>
 				Status do pedido: <textarea name="order_status"><?php echo $statusDescription; ?></textarea>
@@ -46,6 +47,7 @@
 				<input type="hidden" name="order_code" value="<?php echo $orderCode; ?>">
 				<input type="hidden" name="status_id" value="<?php echo $statusId; ?>">
 				<input type="submit" value="Submit">
+				<input type="button" value="Cancel" onclick="window.location='/order/search/'" />
 			</form>
 
 	<?php

@@ -42,13 +42,13 @@
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>				
 				<input type="hidden" name="order_action" value="search">
 				<input type="hidden" name="order_id" value="<?php echo $orderId; ?>">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Submit">				
 			</form>
 				
 			
 			
 		<?php if ($thereIsOrder): ?>
-
+			<a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a>
 			<table id="order_table">
 			<thead class="ui-widget-header">
 				<tr>
@@ -72,9 +72,10 @@
 			<?php endwhile; ?>
 			</tbody>
 			</table>
+			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a>		
+			<a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >Search another</a>	
 			<?php endif; ?>
-			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a>
-			<a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a>
+			
 	<?php 
 
 		
