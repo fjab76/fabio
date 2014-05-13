@@ -1,13 +1,7 @@
 <?php
 
 	include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.php';
-
-	function test_input($data) {
-	   $data = trim($data);
-	   $data = stripslashes($data);
-	   $data = htmlspecialchars($data);
-	   return $data;
-	}
+	include $_SERVER['DOCUMENT_ROOT'] . '/includes/common.php';	
 
 	function existUser($username){
 
@@ -72,7 +66,9 @@
 
 	try{
 		session_start();
-		$username = $_SESSION['username'];
+		if(array_key_exists('username',$_SESSION)){
+			$username = $_SESSION['username'];
+		}
 				
 		
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {

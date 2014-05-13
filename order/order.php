@@ -1,12 +1,8 @@
 	<?php
 	
-		function test_input($data) {
-		   $data = trim($data);
-		   $data = stripslashes($data);
-		   $data = htmlspecialchars($data);
-		   return $data;
-		}
-		
+		include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.php';
+		include $_SERVER['DOCUMENT_ROOT'] . '/includes/common.php';
+	
 		function existOrder($orderCode){
 
 			global $pdo;			
@@ -91,8 +87,7 @@
 			$result = $pdo->query($sql);
 			return $result;
 		}
-		
-		include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.php';
+				
 	
 		// define variables and set to empty values
 		$usernameErr = $orderCodeErr = $statusDateErr = $orderStatusErr = "";
