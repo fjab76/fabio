@@ -28,18 +28,26 @@
 <body>
 	<?php include '../user.php'; ?>
 	
-	<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html'; ?>
+	<?php 
+	
+		include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html';
+		if(empty($username)) {
+			$message = "there is no user logged in";
+		}
+		else {
+			$_SESSION = array();
+			session_destroy();
+			$message = "The user $username has been logged out successfully";
+		}
+		
+	 ?>
 	
 	<div id="main">
 		<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/side_menu.html.php'; ?>	
 		<div id="content">
 			
 			<h1 class="title">Logout</h1>
-			<?php !empty($username) or die("there is no user logged in");
-				session_destroy();
-				echo "The user $username has been logged out successfully" 
-			
-			?>
+			<?php echo "$message" ?>
 
 		</div>
 	</div>

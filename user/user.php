@@ -61,7 +61,7 @@
 	// define variables and set to empty values
 	$username = $pwd1 = $pwd2 = $oldPwd = "";
 	$usernameErr = $pwd1Err = $pwd2Err = $oldPwdErr = "";
-	$userAction = $message = "";
+	$pathInfo = $userAction = $message = "";
 	$successValidation = false;
 
 	try{
@@ -179,8 +179,7 @@
 						}
 					}
 				}
-		}
-		
+		}				
 	}
 	
 	catch (PDOException $e){

@@ -10,7 +10,7 @@
 	</div>
 	
 	<div id="login">
-		<?php if(empty($username)): ?>
+		<?php if(!array_key_exists('username',$_SESSION)): ?>
 		<span style="font-size:100%">Area privada para funcionarios<br/></span>
 		<a href="/user/signup" ><button type="button" ><span style="font-size:70%">signup</span></button></a>
 		<a href="/user/login" ><button type="button" ><span style="font-size:70%">login</span></button></a>
@@ -21,7 +21,7 @@
 		<?php endif; ?>
 	</div>
 	
-	<?php if(!empty($username)): ?>
+	<?php if(array_key_exists('username',$_SESSION)): ?>
 	<div id="order_actions">
 		<span style="font-size:110%">Rastreamento de pedidos<br/></span>
 		<a href="/order/insert" ><button type="button" ><span style="font-size:70%">insert</span></button></a>
