@@ -53,9 +53,46 @@
 	function isAnyUserLoggedIn() {
 		
 		session_start();
-		$username = $_SESSION['username'];
+		if(array_key_exists('username', $_SESSION)) {
 			
-		return !empty($username);			
+			$username = $_SESSION['username'];			
+			return !empty($username);	
+		}
+		else {
+			return false;
+		}		
+	}
+
+	function validPassword($password) {
+       
+       //Empty error array for the errors if any
+		$error = array();
+		// Password Strength check
+		if( strlen($password) < 6 ) {
+			$error[] = 'Password need to have at least 6 characters!';
+		}
+ 
+		if( strlen($password) > 20 ) {
+			$error[] = 'Password needs to have less than 20 characters!';
+		}
+ 
+		if( !preg_match("#[0-9]+#", $password) ) {
+			$error[] = 'Password must include at least one number!';
+		}
+ 
+ 
+		if( !preg_match("#[a-z]+#", $password) ) {
+			$error[] = 'Password must include at least one letter!';
+		}
+ 
+ 
+		if( !preg_match("#[A-Z]+#", $password) ) {
+			$error[] = 'Password must include at least one uppercase letter!';
+		}
+ 
+				// Make the array readable
+				$errors=implode('<br />', $error);
+				return $errors;
 	}
 
 
@@ -92,20 +129,34 @@
 					  else {
 					    $pwd2 = test_input($_POST["pwd2"]);
 					  }
-				
+													
 					$successValidation = !empty($username) && !empty($pwd1) && !empty($pwd2);
 					
-					if($successValidation){
-							
-						//check if username already exists
-						if(existUser($username)) {
-							$message = "Username $username ja existe";
-						}		
-						else {
-							insertUser($username,$pwd1);
-							$_SESSION['username'] = $username;
-							$message = "User $username foi criado correctamente";							
+					if($successValidation){	
+					
+						$equalPwds = $pwd1==$pwd2;
+						if($equalPwds){
+							$pwdValidationErrors = validPassword($password);
+							if(empty($pwdValidationErrors)) {	
+								//check if username already exists
+								if(existUser($username)) {
+									$message = "Username $username ja existe";
+								}		
+								else {
+									insertUser($username,$pwd1);
+									$_SESSION['username'] = $username;
+									$message = "User $username foi criado correctamente";							
+								}
+							}
+							else {
+								$message = $pwdValidationErrors;
+							}
 						}
+						else{
+							$message = "Pwd and repeat pwd must be equal";
+						}									
+							
+						
 					}	
 				}
 				elseif($_POST["user_action"]=="login") {
@@ -130,7 +181,7 @@
 							
 						//check username credentials
 						if(!isLoginSuccessful($username,$pwd1)) {
-							$message = "Login of user $username failed";
+							$message = "Username and/or password provided are wrong";
 						}		
 						else {							
 							$_SESSION['username'] = $username;

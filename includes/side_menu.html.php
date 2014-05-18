@@ -16,7 +16,7 @@
 		<a href="/user/signup" ><button type="button" ><span style="font-size:70%">signup</span></button></a>
 		<a href="/user/login" ><button type="button" ><span style="font-size:70%">login</span></button></a>
 		<?php else: ?>
-		<span style="font-size:110%">User:<?php echo " $username" ?><br/></span> 		
+		<span style="font-size:110%">User:<?php echo " {$_SESSION['username']}" ?><br/></span> 		
 		<a href="/user/pwd_change" ><button type="button" ><span style="font-size:70%">Change pwd</span></button></a>
 		<a href="/user/logout" ><button type="button" ><span style="font-size:70%">logout</span></button></a>
 		<?php endif; ?>

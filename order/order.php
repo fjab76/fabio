@@ -228,8 +228,10 @@
 			}
 			elseif ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($username)) {
 		
-				parse_str($_SERVER['QUERY_STRING'], $output);	
-				$orderAction = $output["order_action"];			
+				parse_str($_SERVER['QUERY_STRING'], $output);
+				if(array_key_exists('order_action',$output)){
+					$orderAction = $output["order_action"];
+				}			
 					
 				//delete order status
 				if($orderAction=="delete") {					
@@ -249,7 +251,8 @@
 				elseif($orderAction=="deleteOrder") {					
 					
 					$orderCode = $output["order_code"];		
-					deletetOrder($orderCode);	
+					deletetOrder($orderCode);
+					$message = "Pedido $orderCode foi borrado correctamente";	
 																										
 				}
 				elseif($orderAction=="edit"){

@@ -32,12 +32,12 @@
 	
 		include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html';
 		if(!isAnyUserLoggedIn()) {
-			$message = "there is no user logged in";
+			$message = "There is no user logged in";
 		}
 		else {
+			$message = "The user {$_SESSION['username']} has been logged out successfully";
 			$_SESSION = array();
-			session_destroy();
-			$message = "The user $username has been logged out successfully";
+			session_destroy();			
 		}
 		
 	 ?>
@@ -47,7 +47,11 @@
 		<div id="content">
 			
 			<h1 class="title">Logout</h1>
-			<?php echo "$message" ?>
+			<?php 
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>
 
 		</div>
 	</div>

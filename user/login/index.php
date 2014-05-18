@@ -37,12 +37,12 @@
 			<h1 class="title">Login</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {						
-					!isAnyUserLoggedIn() or die("user is already logged in");
+					!isAnyUserLoggedIn() or die('<p class="info">User is already logged in</p>');
 				} 
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					
 					//checking if the user was logged in successfully					
-					!isAnyUserLoggedIn() or die("$message");															
+					!isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');															
 				}
 			
 			?>
@@ -56,13 +56,11 @@
 				<input type="submit" value="Submit">
 			</form>
 
-	<?php
-	echo "<h2>Your Input:</h2>";
-
-		
-	echo "$message";
-		
-	?>	
+			<?php 
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>
 		</div>
 	</div>
 	

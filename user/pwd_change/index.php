@@ -37,11 +37,11 @@
 			<h1 class="title">Change password</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {
-					isAnyUserLoggedIn() or die("user needs to be logged in") ;
+					isAnyUserLoggedIn() or die('<p class="info">User needs to be logged in</p>') ;
 				}
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					//checking if the pwd was changed					
-					!$pwdUpdated or die("$message");															
+					!$pwdUpdated or die('<p class="info">'.$message.'</p>');															
 				}
 			?>
 			<p><span class="error">* required field.</span></p>
@@ -56,13 +56,12 @@
 				<input type="submit" value="Submit">
 			</form>
 
-	<?php
-	echo "<h2>Your Input:</h2>";
-
+		<?php 
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>		
 		
-	echo "$message";
-		
-	?>	
 		</div>
 	</div>
 	

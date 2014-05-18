@@ -37,8 +37,15 @@
 			<h1 class="title">Signup</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
-					empty($username) or die("log out to create a new user");
-				} ?>
+					!isAnyUserLoggedIn() or die('<p class="info">Log out to create a new user</p>');
+				} 
+				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
+					
+					//checking if the user was logged in successfully					
+					!isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');															
+				}
+				
+			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Username: <input type="text" name="username">
@@ -51,13 +58,12 @@
 				<input type="submit" value="Submit">
 			</form>
 
-	<?php
-	echo "<h2>Your Input:</h2>";
-
+		<?php 
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>		
 		
-	echo "$message";
-		
-	?>	
 		</div>
 	</div>
 	

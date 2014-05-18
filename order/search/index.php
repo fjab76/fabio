@@ -42,7 +42,7 @@
 			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Código do Pedido: <input type="text" name="order_code" value="<?php echo $orderCode; ?>">
+				Código do Pedido: <input type="text" name="order_code">
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>				
 				<input type="hidden" name="order_action" value="search">
 				<input type="hidden" name="order_id" value="<?php echo $orderId; ?>">
@@ -53,7 +53,7 @@
 			
 			<?php else: ?>
 			Código do Pedido: "<?php echo $orderCode; ?>"<br/>
-			<a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a>
+			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a></p>
 			<table id="order_table">
 			<thead class="ui-widget-header">
 				<tr>
@@ -77,15 +77,15 @@
 			<?php endwhile; ?>
 			</tbody>
 			</table>
-			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a><br/>		
-			<a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >Search another</a>	
-			<?php endif; ?>
+			<p><a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a></p>	
 			
-	<?php 
-		
-	echo "<p>$message<p>";
-		
-	?>	
+			<?php 
+				endif;
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>
+
 		</div>
 	</div>
 	
