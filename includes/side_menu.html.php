@@ -1,4 +1,5 @@
 
+<?php session_start(); ?>
 
 <div id="side_menu">
 	<div id="order_track">

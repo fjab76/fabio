@@ -29,7 +29,7 @@
 	
 		global $pdo;			
 
-		$pdo->exec("update user set password='$pwd' where username='$username'");	
+		return $pdo->exec("update user set password='$pwd' where username='$username'");	
 	}
 
 	function isLoginSuccessful($username,$pwd){
@@ -50,7 +50,7 @@
 		$pdo->exec("insert into user (username,password) values ('$username','$pwd')");				
 	}	
 	
-	function isUserAuthorised() {
+	function isAnyUserLoggedIn() {
 		
 		session_start();
 		$username = $_SESSION['username'];
@@ -58,19 +58,16 @@
 		return !empty($username);			
 	}
 
+
 	// define variables and set to empty values
 	$username = $pwd1 = $pwd2 = $oldPwd = "";
 	$usernameErr = $pwd1Err = $pwd2Err = $oldPwdErr = "";
 	$pathInfo = $userAction = $message = "";
-	$successValidation = false;
+	$successValidation = $pwdUpdated = false;
 
 	try{
 		session_start();
-		if(array_key_exists('username',$_SESSION)){
-			$username = $_SESSION['username'];
-		}
-				
-		
+					
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								
 				if($_POST["user_action"]=="signup") {
@@ -169,10 +166,17 @@
 					if($successValidation){
 
 						//check if old pwd is ok
-						if(isLoginSuccessful($username,$oldPwd)) {						
+						if(isLoginSuccessful($_SESSION['username'],$oldPwd)) {						
 							//update pwd
-							updateUserPwd($username,$pwd1);
-							$message = "Password was changed successfully";
+							$num = updateUserPwd($_SESSION['username'],$pwd1);
+							if($num>0) {
+								$pwdUpdated = true;
+								$message = "Password was changed successfully";
+							}
+							else {
+								$pwdUpdated = false;
+								$message = "Password could not be changed";
+							}						
 						}
 						else {
 							$message = "Old password is not right";

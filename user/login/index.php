@@ -37,8 +37,15 @@
 			<h1 class="title">Login</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {						
-					empty($username) or die("user is already logged in");
-				} ?>
+					!isAnyUserLoggedIn() or die("user is already logged in");
+				} 
+				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
+					
+					//checking if the user was logged in successfully					
+					!isAnyUserLoggedIn() or die("$message");															
+				}
+			
+			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Username: <input type="text" name="username">

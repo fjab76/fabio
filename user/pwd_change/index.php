@@ -37,7 +37,11 @@
 			<h1 class="title">Change password</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {
-					!empty($username) or die("user needs to be logged in") ;
+					isAnyUserLoggedIn() or die("user needs to be logged in") ;
+				}
+				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
+					//checking if the pwd was changed					
+					!$pwdUpdated or die("$message");															
 				}
 			?>
 			<p><span class="error">* required field.</span></p>

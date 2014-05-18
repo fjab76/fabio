@@ -51,19 +51,6 @@
 				<input type="button" value="Cancel" onclick="window.location='/order/search/'" />
 			</form>
 
-	<?php
-	echo "<h2>Your Input:</h2>";
-
-		
-	echo "$message";
-		
-	echo "<br>";
-	echo $orderCode;
-	echo "<br>";
-	echo $statusDate;
-	echo "<br>";
-	echo $orderStatus;
-	?>	
 		</div>
 	</div>
 	

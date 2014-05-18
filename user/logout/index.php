@@ -31,7 +31,7 @@
 	<?php 
 	
 		include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html';
-		if(empty($username)) {
+		if(!isAnyUserLoggedIn()) {
 			$message = "there is no user logged in";
 		}
 		else {

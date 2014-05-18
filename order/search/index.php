@@ -36,7 +36,10 @@
 			
 			
 			<h1 class="title">Busque pedido</h1>
-			<?php !empty($username) or die("Please, log in to access to this functionality") ?>
+			<?php 
+				!empty($username) or die("Please, log in to access to this functionality"); 
+				if (!$thereIsOrder):
+			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Código do Pedido: <input type="text" name="order_code" value="<?php echo $orderCode; ?>">
@@ -48,7 +51,8 @@
 				
 			
 			
-		<?php if ($thereIsOrder): ?>
+			<?php else: ?>
+			Código do Pedido: "<?php echo $orderCode; ?>"<br/>
 			<a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a>
 			<table id="order_table">
 			<thead class="ui-widget-header">
@@ -73,24 +77,14 @@
 			<?php endwhile; ?>
 			</tbody>
 			</table>
-			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a>		
+			<a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a><br/>		
 			<a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >Search another</a>	
 			<?php endif; ?>
 			
 	<?php 
-
 		
-	echo "<h2>Your Input:</h2>";
-
+	echo "<p>$message<p>";
 		
-	echo "$message";
-		
-	echo "<br>";
-	echo $orderCode;
-	echo "<br>";
-	echo $statusDate;
-	echo "<br>";
-	echo $orderStatus;
 	?>	
 		</div>
 	</div>
