@@ -36,11 +36,14 @@
 
 		global $pdo;			
 		
-		$sql = "select count(*) from user where username='$username' and password='$pwd'";
+		$sql = "select password from user where username='$username'";
 		$result = $pdo->query($sql);
       $row = $result->fetch();
+      if($row) {
+      	return crypt($pwd, $row[0])==$row[0];
+      }
       
-      return ($row[0]>0);	
+      return false;	
 	}
 
 	function insertUser($username,$pwd) {
@@ -136,14 +139,15 @@
 					
 						$equalPwds = $pwd1==$pwd2;
 						if($equalPwds){
-							$pwdValidationErrors = validPassword($password);
+							$pwdValidationErrors = validPassword($pwd1);
 							if(empty($pwdValidationErrors)) {	
 								//check if username already exists
 								if(existUser($username)) {
 									$message = "Username $username ja existe";
 								}		
 								else {
-									insertUser($username,$pwd1);
+									$hashedPwd = crypt($pwd1);
+									insertUser($username,$hashedPwd);
 									$_SESSION['username'] = $username;
 									$message = "User $username foi criado correctamente";							
 								}
@@ -215,25 +219,38 @@
 					$successValidation = !empty($oldPwd) && !empty($pwd1) && !empty($pwd2);
 					
 					if($successValidation){
-
-						//check if old pwd is ok
-						if(isLoginSuccessful($_SESSION['username'],$oldPwd)) {						
-							//update pwd
-							$num = updateUserPwd($_SESSION['username'],$pwd1);
-							if($num>0) {
-								$pwdUpdated = true;
-								$message = "Password was changed successfully";
+						$equalPwds = $pwd1==$pwd2;
+						if($equalPwds){
+							$pwdValidationErrors = validPassword($pwd1);
+							if(empty($pwdValidationErrors)) {
+		
+								//check if old pwd is ok
+								if(isLoginSuccessful($_SESSION['username'],$oldPwd)) {						
+									//update pwd
+									$hashedPwd = crypt($pwd1);
+									$num = updateUserPwd($_SESSION['username'],$hashedPwd);
+									if($num>0) {
+										$pwdUpdated = true;
+										$message = "Password was changed successfully";
+									}
+									else {
+										$pwdUpdated = false;
+										$message = "Password could not be changed";
+									}						
+								}
+								else {
+									$message = "Old password is not right";
+								}
 							}
 							else {
-								$pwdUpdated = false;
-								$message = "Password could not be changed";
-							}						
-						}
-						else {
-							$message = "Old password is not right";
-						}
+								$message = $pwdValidationErrors;
+							}
+					}
+					else{
+						$message = "Pwd and repeat pwd must be equal";
 					}
 				}
+			}
 		}				
 	}
 	
