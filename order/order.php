@@ -94,6 +94,7 @@
 		$username = $orderId = $orderCode = $statusDate = $orderStatus = "";
 		$orderAction = $message = "";
 		$thereIsOrder = $successValidation = false;
+		$showForm = true;
 		
 		try{
 		
@@ -136,10 +137,10 @@
 						}		
 						else {
 							insertOrder($orderCode,$statusDate,$orderStatus);
-							$result = getOrderStatusByOrderCode($orderCode);
-							$thereIsOrder = true;
+							$result = getOrderStatusByOrderCode($orderCode);							
 							$message = "Pedido $orderCode foi insertado correctamente";							
 						}
+						$thereIsOrder = true;
 					}	
 				}
 			
@@ -182,16 +183,20 @@
 				
 					$successValidation = !empty($statusDate) && !empty($orderStatus);
 					
+					$orderCode = $_POST["order_code"];
+					$statusId = $_POST['status_id'];
+					$orderAction = $_POST["order_action"];
+					
 					if($successValidation){
 							
 						//check if order code already exists
-						$orderCode = $_POST["order_code"];
-						$statusId = $_POST['status_id'];
+						
 						$sql = "update order_status set status_date='$statusDate' , status_description='$orderStatus' where id=$statusId";
 						$pdo->exec($sql);			
 						$message = "Status foi actualizado correctamente";	
 						
 						$thereIsOrder = true;
+						$showForm = false;
 						$result = getOrderStatusByOrderCode($orderCode);												
 					}	
 				}
@@ -212,16 +217,19 @@
 					  }
 				
 					$successValidation = !empty($statusDate) && !empty($orderStatus);
+					$orderCode = $_POST["order_code"];
+					$orderAction = $_POST["order_action"];
 					
 					if($successValidation){
 							
 						//check if order code already exists
-						$orderCode = $_POST["order_code"];
+						
 						$orderId = getOrderIdByOrderCode($orderCode);						
 						insertOrderStatus($orderId,$statusDate,$orderStatus);	
 						$message = "Status foi insertado correctamente";	
 						
 						$thereIsOrder = true;
+						$showForm = false;
 						$result = getOrderStatusByOrderCode($orderCode);												
 					}	
 				}
@@ -264,7 +272,7 @@
 					$row = $result->fetch();
 					
 					$statusDate = $row['status_date'];
-					$statusDescription = $row['status_description'];
+					$orderStatus = $row['status_description'];
 										
 				}	
 				elseif($orderAction=="addStatus"){

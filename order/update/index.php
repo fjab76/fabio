@@ -35,14 +35,26 @@
 		<div id="content">
 			
 			<h1 class="title">Actualiza pedido</h1>
-			<?php !empty($username) or die("Please, log in to access to this functionality") ?>
+			
+			<?php 
+				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
+					!empty($username) or die('<p class="info">Log in to create update the order</p>');
+				} 
+				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
+					
+					//checking if the user was logged in successfully					
+					!empty($username) or die('<p class="info">'.$message.'</p>');															
+				}
+			
+				if($showForm):		
+			?>				
+			
 			<p><span class="error">* required field.</span></p>
-			<form  method="post" action="/order/search/"/>
+			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" />
 				Código do Pedido: <?php echo $orderCode; ?> <br>
-				<span class="error">* <?php echo $orderCodeErr;?></span><br>
 				Data: <input type="date" name="status_date" value="<?php echo $statusDate; ?>"/>
 				<span class="error">* <?php echo $statusDateErr;?></span><br>
-				Status do pedido: <textarea name="order_status"><?php echo $statusDescription; ?></textarea>
+				Status do pedido: <textarea name="order_status"><?php echo $orderStatus; ?></textarea>
 				<span class="error">* <?php echo $orderStatusErr;?></span><br>				
 				<input type="hidden" name="order_action" value="<?php echo $orderAction; ?>">
 				<input type="hidden" name="order_code" value="<?php echo $orderCode; ?>">
@@ -50,6 +62,17 @@
 				<input type="submit" value="Submit">
 				<input type="button" value="Cancel" onclick="window.location='/order/search/'" />
 			</form>
+
+			<?php else: ?>
+			
+			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=search" >See order</a></p>					
+			
+			<?php 
+				endif;
+				if(!empty($message)) { 
+					echo '<p class="info">'.$message.'</p>'; 
+				} 
+			?>
 
 		</div>
 	</div>

@@ -35,24 +35,38 @@
 		<div id="content">
 			
 			<h1 class="title">Novo pedido</h1>
-			<?php !empty($username) or die("Please, log in to access to this functionality") ?>
+			<?php 
+				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
+					!empty($username) or die('<p class="info">Log in to create a new order</p>');
+				} 
+				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
+					
+					//checking if the user was logged in successfully					
+					!empty($username) or die('<p class="info">'.$message.'</p>');															
+				}
+			
+				if (!$thereIsOrder):				
+			?>			
+			
 			<p><span class="error">* required field.</span></p>
-			<form  method="post" action="/order/search/">
-				Código do Pedido: <input type="text" name="order_code">
+			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+				Código do Pedido: <input type="text" name="order_code" value="<?php echo $orderCode;?>">
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>
-				Data: <input type="date" name="status_date">
+				Data: <input type="date" name="status_date" value="<?php echo $statusDate;?>">
 				<span class="error">* <?php echo $statusDateErr;?></span><br>
-				Status do pedido: <textarea name="order_status"></textarea>
+				Status do pedido: <textarea name="order_status"><?php echo $orderStatus;?></textarea>
 				<span class="error">* <?php echo $orderStatusErr;?></span><br>
 				<input type="hidden" name="order_action" value="insert">
 				<input type="submit" value="Submit">
 			</form>
 
-	<?php
+		<?php 
+			endif;
+			if(!empty($message)) { 
+				echo '<p class="info">'.$message.'</p>'; 
+			} 
+		?>			
 		
-	echo "$message";
-		
-	?>	
 		</div>
 	</div>
 	

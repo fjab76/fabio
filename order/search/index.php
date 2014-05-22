@@ -77,10 +77,11 @@
 			<?php endwhile; ?>
 			</tbody>
 			</table>
-			<p><a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a></p>	
+			<p><a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a></p>			
 			
 			<?php 
 				endif;
+				
 				if(!empty($message)) { 
 					echo '<p class="info">'.$message.'</p>'; 
 				} 
