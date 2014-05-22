@@ -278,7 +278,21 @@
 				elseif($orderAction=="addStatus"){
 																	
 					$orderCode = $output["order_code"];												
-				}							
+				}
+				elseif($orderAction=="search"){
+																	
+					$orderCode = $output["order_code"];	
+					$orderCode = test_input($orderCode);
+					    
+				    //check if order code already exists
+					if(!existOrder($orderCode)) {
+						$message = "Pedido $orderCode no existe";
+					}
+					else {
+						$thereIsOrder = true;						
+						$result = getOrderStatusByOrderCode($orderCode);													
+					}											
+				}								
 			}
 		}
 		catch (PDOException $e){

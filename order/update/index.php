@@ -54,7 +54,7 @@
 				Código do Pedido: <?php echo $orderCode; ?> <br>
 				Data: <input type="date" name="status_date" value="<?php echo $statusDate; ?>"/>
 				<span class="error">* <?php echo $statusDateErr;?></span><br>
-				Status do pedido: <textarea name="order_status"><?php echo $orderStatus; ?></textarea>
+				Status do pedido: <textarea name="order_status" maxlength="255"><?php echo $orderStatus; ?></textarea>
 				<span class="error">* <?php echo $orderStatusErr;?></span><br>				
 				<input type="hidden" name="order_action" value="<?php echo $orderAction; ?>">
 				<input type="hidden" name="order_code" value="<?php echo $orderCode; ?>">

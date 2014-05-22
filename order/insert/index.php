@@ -50,15 +50,19 @@
 			
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Código do Pedido: <input type="text" name="order_code" value="<?php echo $orderCode;?>">
+				Código do Pedido: <input type="text" name="order_code" maxlength="16" value="<?php echo $orderCode;?>">
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>
 				Data: <input type="date" name="status_date" value="<?php echo $statusDate;?>">
 				<span class="error">* <?php echo $statusDateErr;?></span><br>
-				Status do pedido: <textarea name="order_status"><?php echo $orderStatus;?></textarea>
+				Status do pedido: <textarea name="order_status" maxlength="255"><?php echo $orderStatus;?></textarea>
 				<span class="error">* <?php echo $orderStatusErr;?></span><br>
 				<input type="hidden" name="order_action" value="insert">
 				<input type="submit" value="Submit">
 			</form>
+			
+			<?php else: ?>
+			
+			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=search" >See order</a></p>
 
 		<?php 
 			endif;

@@ -48,11 +48,11 @@
 			?>
 			<p><span class="error">* required field.</span></p>
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Username: <input type="text" name="username">
+				Username: <input type="text" name="username" maxlength="16" value="<?php echo $username; ?>">
 				<span class="error">* <?php echo $usernameErr;?></span><br>
-				Password: <input type="password" name="pwd1">
+				Password: <input type="password" name="pwd1" maxlength="19">
 				<span class="error">* <?php echo $pwd1Err;?></span><br>
-				Repeat Password: <input type="password" name="pwd2">
+				Repeat Password: <input type="password" name="pwd2" maxlength="19">
 				<span class="error">* <?php echo $pwd2Err;?></span><br>
 				<input type="hidden" name="user_action" value="signup">
 				<input type="submit" value="Submit">

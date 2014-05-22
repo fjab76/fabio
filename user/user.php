@@ -46,6 +46,34 @@
       return false;	
 	}
 
+	function isUserAccountDisabled($username){
+
+		global $pdo;			
+		
+		$sql = "select num_attempts,max_num_attempts from user where username='$username'";
+		$result = $pdo->query($sql);
+      $row = $result->fetch();
+      if($row) {
+      	return $row['num_attempts']>=$row['max_num_attempts'];
+      }
+      
+      return false;	
+	}
+
+	function incrementNumLoginAttempts($username) {
+			
+		global $pdo;
+		
+		$pdo->exec("update user set num_attempts=num_attempts+1 where username='$username'");				
+	}
+
+	function resetNumLoginAttempts($username) {
+			
+		global $pdo;
+		
+		$pdo->exec("update user set num_attempts=0 where username='$username'");				
+	}
+
 	function insertUser($username,$pwd) {
 			
 		global $pdo;
@@ -183,13 +211,20 @@
 					
 					if($successValidation){
 							
-						//check username credentials
-						if(!isLoginSuccessful($username,$pwd1)) {
-							$message = "Username and/or password provided are wrong";
-						}		
-						else {							
-							$_SESSION['username'] = $username;
-							$message = "User $username logged in successfully";							
+						if(isUserAccountDisabled($username)){
+							$message = "The account '$username' is disabled";
+						}	
+						else {										
+							//check username credentials
+							if(!isLoginSuccessful($username,$pwd1)) {
+								$message = "Username and/or password provided are wrong";
+								incrementNumLoginAttempts($username);
+							}		
+							else {							
+								$_SESSION['username'] = $username;
+								$message = "User $username logged in successfully";	
+								resetNumLoginAttempts($username);						
+							}
 						}
 					}
 				}
