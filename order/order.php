@@ -133,12 +133,12 @@
 							
 						//check if order code already exists
 						if(existOrder($orderCode)) {
-							$message = "Pedido $orderCode ja existe";
+							$message = "Pedido $orderCode já existe";
 						}		
 						else {
 							insertOrder($orderCode,$statusDate,$orderStatus);
 							$result = getOrderStatusByOrderCode($orderCode);							
-							$message = "Pedido $orderCode foi insertado correctamente";							
+							$message = "Pedido $orderCode foi criado corretamente";							
 						}
 						$thereIsOrder = true;
 					}	
@@ -155,7 +155,7 @@
 					    
 						    //check if order code already exists
 							if(!existOrder($orderCode)) {
-								$message = "Pedido $orderCode no existe";
+								$message = "Pedido $orderCode não existe";
 							}
 							else {
 								$thereIsOrder = true;						
@@ -193,7 +193,7 @@
 						
 						$sql = "update order_status set status_date='$statusDate' , status_description='$orderStatus' where id=$statusId";
 						$pdo->exec($sql);			
-						$message = "Status foi actualizado correctamente";	
+						$message = "Status foi atualizado corretamente";	
 						
 						$thereIsOrder = true;
 						$showForm = false;
@@ -226,7 +226,7 @@
 						
 						$orderId = getOrderIdByOrderCode($orderCode);						
 						insertOrderStatus($orderId,$statusDate,$orderStatus);	
-						$message = "Status foi insertado correctamente";	
+						$message = "Status foi criado corretamente";	
 						
 						$thereIsOrder = true;
 						$showForm = false;
@@ -250,7 +250,7 @@
 				
 													
 					deleteOrderStatus($statusId);	
-					$message = "Status foi eliminado correctamente";
+					$message = "Status foi excluido corretamente";
 					
 					$thereIsOrder = true;
 					$result = getOrderStatusByOrderCode($orderCode);		
@@ -260,7 +260,7 @@
 					
 					$orderCode = $output["order_code"];		
 					deletetOrder($orderCode);
-					$message = "Pedido $orderCode foi borrado correctamente";	
+					$message = "Pedido $orderCode foi exluido corretamente";	
 																										
 				}
 				elseif($orderAction=="edit"){
@@ -286,7 +286,7 @@
 					    
 				    //check if order code already exists
 					if(!existOrder($orderCode)) {
-						$message = "Pedido $orderCode no existe";
+						$message = "Pedido $orderCode não existe";
 					}
 					else {
 						$thereIsOrder = true;						

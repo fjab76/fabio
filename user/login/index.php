@@ -44,16 +44,16 @@
 					//checking if the user was logged in successfully					
 					!isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');															
 				}
-			
+				echo $msg_campoObrigatorio;
 			?>
-			<p><span class="error">* required field.</span></p>
+			
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Username: <input type="text" name="username">
+				Nome do Usuário: <input type="text" name="username">
 				<span class="error">* <?php echo $usernameErr;?></span><br>
-				Password: <input type="password" name="pwd1">
+				Senha: <input type="password" name="pwd1">
 				<span class="error">* <?php echo $pwd1Err;?></span><br>				
 				<input type="hidden" name="user_action" value="login">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Acessar">
 			</form>
 
 			<?php 

@@ -35,25 +35,26 @@
 		<div id="content">
 			
 			
-			<h1 class="title">Busque pedido</h1>
+			<h1 class="title">Pesquisar pedido</h1>
 			<?php 
 				!empty($username) or die("Please, log in to access to this functionality"); 
-				if (!$thereIsOrder):
+				if (!$thereIsOrder){
+					echo $msg_campoObrigatorio;
 			?>
-			<p><span class="error">* required field.</span></p>
+
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Código do Pedido: <input type="text" name="order_code">
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>				
 				<input type="hidden" name="order_action" value="search">
 				<input type="hidden" name="order_id" value="<?php echo $orderId; ?>">
-				<input type="submit" value="Submit">				
+				<input type="submit" value="Pesquisar">				
 			</form>
 				
 			
 			
-			<?php else: ?>
+			<?php }else{ ?>
 			Código do Pedido: "<?php echo $orderCode; ?>"<br/>
-			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Borrar pedido</a></p>
+			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=deleteOrder" >Excluir pedido</a></p>
 			<table id="order_table">
 			<thead class="ui-widget-header">
 				<tr>
@@ -68,8 +69,8 @@
 			<?php	while ($row = $result->fetch()): ?>
 		
 				<tr>
-		    	  <td> <a href="/order/update/?status_id=<?php echo $row['id'] ?>&order_action=edit" >Edit</a> </td>
-		    	  <td> <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>?status_id=<?php echo $row['id'] ?>&order_action=delete" >Delete</a> </td>
+		    	  <td> <a href="/order/update/?status_id=<?php echo $row['id'] ?>&order_action=edit" >Editar</a> </td>
+		    	  <td> <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>?status_id=<?php echo $row['id'] ?>&order_action=delete" >Excluir</a> </td>
 		        <td> <?php echo $row['status_date'] ?> </td>
 		        <td> <?php echo $row['status_description'] ?> </td>		    
 		    	</tr>
@@ -77,10 +78,10 @@
 			<?php endwhile; ?>
 			</tbody>
 			</table>
-			<p><a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Add status</a></p>			
+			<p><a href="/order/update/?order_code=<?php echo $orderCode ?>&order_action=addStatus" >Criar status</a></p>			
 			
 			<?php 
-				endif;
+				}
 				
 				if(!empty($message)) { 
 					echo '<p class="info">'.$message.'</p>'; 

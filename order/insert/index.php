@@ -34,7 +34,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/side_menu.html.php'; ?>	
 		<div id="content">
 			
-			<h1 class="title">Novo pedido</h1>
+			<h1 class="title">Criar pedido</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
 					!empty($username) or die('<p class="info">Log in to create a new order</p>');
@@ -45,10 +45,11 @@
 					!empty($username) or die('<p class="info">'.$message.'</p>');															
 				}
 			
-				if (!$thereIsOrder):				
+				if (!$thereIsOrder){
+					echo $msg_campoObrigatorio;				
 			?>			
 			
-			<p><span class="error">* required field.</span></p>
+
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				Código do Pedido: <input type="text" name="order_code" maxlength="16" value="<?php echo $orderCode;?>">
 				<span class="error">* <?php echo $orderCodeErr;?></span><br>
@@ -57,15 +58,15 @@
 				Status do pedido: <textarea name="order_status" maxlength="255"><?php echo $orderStatus;?></textarea>
 				<span class="error">* <?php echo $orderStatusErr;?></span><br>
 				<input type="hidden" name="order_action" value="insert">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Criar">
 			</form>
 			
-			<?php else: ?>
+			<?php }else{ ?>
 			
-			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=search" >See order</a></p>
+			<p><a href="/order/search/?order_code=<?php echo $orderCode ?>&order_action=search" >Ver pedido</a></p>
 
 		<?php 
-			endif;
+			}
 			if(!empty($message)) { 
 				echo '<p class="info">'.$message.'</p>'; 
 			} 

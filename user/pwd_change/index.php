@@ -34,7 +34,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/side_menu.html.php'; ?>	
 		<div id="content">
 			
-			<h1 class="title">Change password</h1>
+			<h1 class="title">Alterar senha</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {
 					isAnyUserLoggedIn() or die('<p class="info">User needs to be logged in</p>') ;
@@ -43,17 +43,18 @@
 					//checking if the pwd was changed					
 					!$pwdUpdated or die('<p class="info">'.$message.'</p>');															
 				}
+				echo $msg_campoObrigatorio;
 			?>
-			<p><span class="error">* required field.</span></p>
+
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Old Password: <input type="password" name="old_pwd">
+				Senha: <input type="password" name="old_pwd">
 				<span class="error">* <?php echo $oldPwdErr;?></span><br>			
-				Password: <input type="password" name="pwd1">
+				Nova senha: <input type="password" name="pwd1">
 				<span class="error">* <?php echo $pwd1Err;?></span><br>
-				Repeat Password: <input type="password" name="pwd2">
+				Confirma nova senha: <input type="password" name="pwd2">
 				<span class="error">* <?php echo $pwd2Err;?></span><br>
 				<input type="hidden" name="user_action" value="pwd_change">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Confirmar">
 			</form>
 
 		<?php 

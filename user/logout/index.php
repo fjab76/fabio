@@ -35,7 +35,7 @@
 			$message = "There is no user logged in";
 		}
 		else {
-			$message = "The user {$_SESSION['username']} has been logged out successfully";
+			$message = "O usuário '{$_SESSION['username']}' saiu do sistema corretamente";
 			$_SESSION = array();
 			session_destroy();			
 		}

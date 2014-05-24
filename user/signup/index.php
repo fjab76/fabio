@@ -34,7 +34,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/side_menu.html.php'; ?>	
 		<div id="content">
 			
-			<h1 class="title">Signup</h1>
+			<h1 class="title">Cadastro</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
 					!isAnyUserLoggedIn() or die('<p class="info">Log out to create a new user</p>');
@@ -44,18 +44,18 @@
 					//checking if the user was logged in successfully					
 					!isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');															
 				}
-				
+				echo $msg_campoObrigatorio;
 			?>
-			<p><span class="error">* required field.</span></p>
+			
 			<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				Username: <input type="text" name="username" maxlength="16" value="<?php echo $username; ?>">
+				Nome do Usuário: <input type="text" name="username" maxlength="16" value="<?php echo $username; ?>">
 				<span class="error">* <?php echo $usernameErr;?></span><br>
-				Password: <input type="password" name="pwd1" maxlength="19">
+				Senha: <input type="password" name="pwd1" maxlength="19">
 				<span class="error">* <?php echo $pwd1Err;?></span><br>
-				Repeat Password: <input type="password" name="pwd2" maxlength="19">
+				Confirma senha: <input type="password" name="pwd2" maxlength="19">
 				<span class="error">* <?php echo $pwd2Err;?></span><br>
 				<input type="hidden" name="user_action" value="signup">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Cadastrar">
 			</form>
 
 		<?php 

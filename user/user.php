@@ -171,13 +171,13 @@
 							if(empty($pwdValidationErrors)) {	
 								//check if username already exists
 								if(existUser($username)) {
-									$message = "Username $username ja existe";
+									$message = "O usuário '$username' já existe";
 								}		
 								else {
 									$hashedPwd = crypt($pwd1);
 									insertUser($username,$hashedPwd);
 									$_SESSION['username'] = $username;
-									$message = "User $username foi criado correctamente";							
+									$message = "A conta do usuário '$username' foi criada corretamente";							
 								}
 							}
 							else {
@@ -185,7 +185,7 @@
 							}
 						}
 						else{
-							$message = "Pwd and repeat pwd must be equal";
+							$message = "'Confirma nova senha' está errada";
 						}									
 							
 						
@@ -212,17 +212,17 @@
 					if($successValidation){
 							
 						if(isUserAccountDisabled($username)){
-							$message = "The account '$username' is disabled";
+							$message = "Por motivos de segurança, sua conta '$username' foi bloqueada";
 						}	
 						else {										
 							//check username credentials
 							if(!isLoginSuccessful($username,$pwd1)) {
-								$message = "Username and/or password provided are wrong";
+								$message = "Os dados de acesso estão errados";
 								incrementNumLoginAttempts($username);
 							}		
 							else {							
 								$_SESSION['username'] = $username;
-								$message = "User $username logged in successfully";	
+								$message = "O usuário '$username' foi logado corretamente";	
 								resetNumLoginAttempts($username);						
 							}
 						}
@@ -266,15 +266,15 @@
 									$num = updateUserPwd($_SESSION['username'],$hashedPwd);
 									if($num>0) {
 										$pwdUpdated = true;
-										$message = "Password was changed successfully";
+										$message = "Senha foi alterada corretamente";
 									}
 									else {
 										$pwdUpdated = false;
-										$message = "Password could not be changed";
+										$message = "Senha não pôde ser alterada";
 									}						
 								}
 								else {
-									$message = "Old password is not right";
+									$message = "Senha antiga está errada";
 								}
 							}
 							else {
@@ -282,7 +282,7 @@
 							}
 					}
 					else{
-						$message = "Pwd and repeat pwd must be equal";
+						$message = "'Confirma nova senha' está errada";
 					}
 				}
 			}
