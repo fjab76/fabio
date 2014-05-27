@@ -35,14 +35,16 @@
 		<div id="content">
 			
 			<h1 class="title">Cadastro</h1>
-			<?php 
+			<?php 				
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
-					!isAnyUserLoggedIn() or die('<p class="info">Log out to create a new user</p>');
+					isAnyUserLoggedIn() or die('<p class="info">Precisa fazer login para criar um novo usuário</p>');
+					($_SESSION['username'] == "fabio") or die('<p class="info">O usuário não tem privilégio para criar um novo usuário</p>');			 
+					
 				} 
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					
 					//checking if the user was logged in successfully					
-					!isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');															
+					isAnyUserLoggedIn() or die('<p class="info">'.$message.'</p>');														
 				}
 				echo $msg_campoObrigatorio;
 			?>

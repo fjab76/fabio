@@ -37,7 +37,7 @@
 			
 			<h1 class="title">Pesquisar pedido</h1>
 			<?php 
-				!empty($username) or die("Please, log in to access to this functionality"); 
+				!empty($username) or die('<p class="info">Precisa fazer login para pesquisar um pedido</p>'); 
 				if (!$thereIsOrder){
 					echo $msg_campoObrigatorio;
 			?>

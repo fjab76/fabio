@@ -1,3 +1,4 @@
+<?php include '../user.php'; ?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -26,7 +27,7 @@
 	
 </head>
 <body>
-	<?php include '../user.php'; ?>
+	
 	
 	<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html'; ?>
 	
@@ -37,7 +38,7 @@
 			<h1 class="title">Login</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {						
-					!isAnyUserLoggedIn() or die('<p class="info">User is already logged in</p>');
+					!isAnyUserLoggedIn() or die('<p class="info">O usuário já está logado</p>');
 				} 
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					

@@ -1,5 +1,9 @@
+<?php 
 
-<?php session_start(); ?>
+//include $_SERVER['DOCUMENT_ROOT'] . '/includes/common.php';
+
+ ?>
+
 
 <div id="side_menu">
 	<div id="order_track">
@@ -11,18 +15,19 @@
 	</div>
 	
 	<div id="login">
-		<?php if(!array_key_exists('username',$_SESSION)): ?>
-		<span style="font-size:100%">Acesso Área Privada para funcionarios<br/></span>
-		<a href="/user/signup" ><button type="button" ><span style="font-size:70%">Cadastre-se</span></button></a>
+		<?php if(!isset($_SESSION) || !array_key_exists('username',$_SESSION)): ?>
+		<span style="font-size:100%">Acesso Área Privada para funcionarios<br/></span>		
 		<a href="/user/login" ><button type="button" ><span style="font-size:70%">Login</span></button></a>
 		<?php else: ?>
 		<span style="font-size:110%">Usuário:<?php echo " {$_SESSION['username']}" ?><br/></span> 		
 		<a href="/user/pwd_change" ><button type="button" ><span style="font-size:70%">Alterar senha</span></button></a>
 		<a href="/user/logout" ><button type="button" ><span style="font-size:70%">Logout</span></button></a>
-		<?php endif; ?>
+		<?php if($_SESSION['username'] == "fabio"): ?>
+		<a href="/user/signup" ><button type="button" ><span style="font-size:70%">Criar novo Usuário</span></button></a>
+		<?php endif; endif; ?>
 	</div>
 	
-	<?php if(array_key_exists('username',$_SESSION)): ?>
+	<?php if(isset($_SESSION) && array_key_exists('username',$_SESSION)): ?>
 	<div id="order_actions">
 		<span style="font-size:110%">Gestão de pedidos<br/></span>
 		<a href="/order/insert" ><button type="button" ><span style="font-size:70%">Criar</span></button></a>

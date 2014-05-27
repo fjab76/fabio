@@ -32,7 +32,7 @@
 	
 		include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html';
 		if(!isAnyUserLoggedIn()) {
-			$message = "There is no user logged in";
+			$message = "Não há nenhum usuário logado";
 		}
 		else {
 			$message = "O usuário '{$_SESSION['username']}' saiu do sistema corretamente";

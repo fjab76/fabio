@@ -37,7 +37,7 @@
 			<h1 class="title">Criar pedido</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {			
-					!empty($username) or die('<p class="info">Log in to create a new order</p>');
+					!empty($username) or die('<p class="info">Precisa fazer login para agregar um novo pedido</p>');
 				} 
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					

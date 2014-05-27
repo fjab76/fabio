@@ -1,3 +1,4 @@
+<?php include '../user.php'; ?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -26,7 +27,7 @@
 	
 </head>
 <body>
-	<?php include '../user.php'; ?>
+	
 	
 	<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.html'; ?>
 	
@@ -37,7 +38,19 @@
 			<h1 class="title">Alterar senha</h1>
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {
-					isAnyUserLoggedIn() or die('<p class="info">User needs to be logged in</p>') ;
+					//isAnyUserLoggedIn() or die('<p class="info">Precisa fazer login para alterar a senha</p>') ;
+					//session_start();
+					echo "<p>username: {$_SESSION['username']}</p>";
+					echo "<p>session id:".session_id()."</p>";
+					echo "<pre>";
+					print_r($_SESSION);
+					echo "</pre>";
+					if(array_key_exists('username', $_SESSION)) {			
+						$username = $_SESSION['username'];			
+					}
+					else {
+						die('<p class="info">Precisa fazer login para alterar a senha</p>') ;
+					}
 				}
 				elseif ($_SERVER["REQUEST_METHOD"] == "POST") {	
 					//checking if the pwd was changed					

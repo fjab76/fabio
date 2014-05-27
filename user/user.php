@@ -100,25 +100,25 @@
 		$error = array();
 		// Password Strength check
 		if( strlen($password) < 6 ) {
-			$error[] = 'Password need to have at least 6 characters!';
+			$error[] = 'Senhas devem ter al menos 6 caracteres';
 		}
  
 		if( strlen($password) > 20 ) {
-			$error[] = 'Password needs to have less than 20 characters!';
+			$error[] = 'Senhas devem ter menos de 20 caracteres';
 		}
  
 		if( !preg_match("#[0-9]+#", $password) ) {
-			$error[] = 'Password must include at least one number!';
+			$error[] = 'Senhas devem ter al menos um número';
 		}
  
  
 		if( !preg_match("#[a-z]+#", $password) ) {
-			$error[] = 'Password must include at least one letter!';
+			$error[] = 'Senhas devem ter al menos uma letra';
 		}
  
  
 		if( !preg_match("#[A-Z]+#", $password) ) {
-			$error[] = 'Password must include at least one uppercase letter!';
+			$error[] = 'Senhas devem ter al menos uma letra maiúscula';
 		}
  
 				// Make the array readable
@@ -139,69 +139,72 @@
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								
 				if($_POST["user_action"]=="signup") {
+					
+					if(($_SESSION['username'] != "fabio")) {
+						$message = "O usuário não tem privilégio para criar um novo usuário";
+					}
+					else {
 	
-					if (empty($_POST["username"])) {
-					    $usernameErr = "Username is required";
-					  } 
-					  else {
-					    $username = test_input($_POST["username"]);
-					  }
-				
-					if (empty($_POST["pwd1"])) {
-					    $pwd1Err = "Password is required";
-					  } 
-					  else {
-					    $pwd1 = test_input($_POST["pwd1"]);
-					  }	
-					  
-					 if (empty($_POST["pwd2"])) {
-					    $pwd2Err = "Repeat password is required";
-					  } 
-					  else {
-					    $pwd2 = test_input($_POST["pwd2"]);
-					  }
-													
-					$successValidation = !empty($username) && !empty($pwd1) && !empty($pwd2);
+						if (empty($_POST["username"])) {
+						    $usernameErr = $msg_campoObrigatorioLiteral;
+						  } 
+						  else {
+						    $username = test_input($_POST["username"]);
+						  }
 					
-					if($successValidation){	
-					
-						$equalPwds = $pwd1==$pwd2;
-						if($equalPwds){
-							$pwdValidationErrors = validPassword($pwd1);
-							if(empty($pwdValidationErrors)) {	
-								//check if username already exists
-								if(existUser($username)) {
-									$message = "O usuário '$username' já existe";
-								}		
+						if (empty($_POST["pwd1"])) {
+						    $pwd1Err = $msg_campoObrigatorioLiteral;
+						  } 
+						  else {
+						    $pwd1 = test_input($_POST["pwd1"]);
+						  }	
+						  
+						 if (empty($_POST["pwd2"])) {
+						    $pwd2Err = $msg_campoObrigatorioLiteral;
+						  } 
+						  else {
+						    $pwd2 = test_input($_POST["pwd2"]);
+						  }
+														
+						$successValidation = !empty($username) && !empty($pwd1) && !empty($pwd2);
+						
+						if($successValidation){	
+						
+							$equalPwds = $pwd1==$pwd2;
+							if($equalPwds){
+								$pwdValidationErrors = validPassword($pwd1);
+								if(empty($pwdValidationErrors)) {	
+									//check if username already exists
+									if(existUser($username)) {
+										$message = "O usuário '$username' já existe";
+									}		
+									else {
+										$hashedPwd = crypt($pwd1);
+										insertUser($username,$hashedPwd);
+										$message = "A conta do usuário '$username' foi criada corretamente";							
+									}
+								}
 								else {
-									$hashedPwd = crypt($pwd1);
-									insertUser($username,$hashedPwd);
-									$_SESSION['username'] = $username;
-									$message = "A conta do usuário '$username' foi criada corretamente";							
+									$message = $pwdValidationErrors;
 								}
 							}
-							else {
-								$message = $pwdValidationErrors;
-							}
-						}
-						else{
-							$message = "'Confirma nova senha' está errada";
-						}									
-							
-						
-					}	
+							else{
+								$message = "'Confirma nova senha' está errada";
+							}									
+						}	
+					}
 				}
 				elseif($_POST["user_action"]=="login") {
 	
 					if (empty($_POST["username"])) {
-					    $usernameErr = "Username is required";
+					    $usernameErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $username = test_input($_POST["username"]);
 					  }
 				
 					if (empty($_POST["pwd1"])) {
-					    $pwd1Err = "Password is required";
+					    $pwd1Err = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $pwd1 = test_input($_POST["pwd1"]);
@@ -222,7 +225,7 @@
 							}		
 							else {							
 								$_SESSION['username'] = $username;
-								$message = "O usuário '$username' foi logado corretamente";	
+								$message = "O usuário '{$_SESSION['username']}' foi logado corretamente";
 								resetNumLoginAttempts($username);						
 							}
 						}
@@ -231,21 +234,21 @@
 				elseif($_POST["user_action"]=="pwd_change") {
 		
 					if (empty($_POST["old_pwd"])) {
-					    $oldPwdErr = "Old pwd is required";
+					    $oldPwdErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $oldPwd = test_input($_POST["old_pwd"]);
 					  }
 				
 					if (empty($_POST["pwd1"])) {
-					    $pwd1Err = "Password is required";
+					    $pwd1Err = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $pwd1 = test_input($_POST["pwd1"]);
 					  }	
 					  
 					 if (empty($_POST["pwd2"])) {
-					    $pwd2Err = "Repeat password is required";
+					    $pwd2Err = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $pwd2 = test_input($_POST["pwd2"]);
@@ -290,7 +293,7 @@
 	}
 	
 	catch (PDOException $e){
-		$output = 'Unable to access to the database, ' . $e->getMessage();
+		$output = 'Base de dados não pode ser conectada, ' . $e->getMessage();
 		include $_SERVER['DOCUMENT_ROOT'] .'/includes/error.html.php';
 		exit();
 	}

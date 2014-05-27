@@ -107,21 +107,21 @@
 				if($_POST["order_action"]=="insert") {
 	
 					if (empty($_POST["order_code"])) {
-					    $orderCodeErr = "Order code is required";
+					    $orderCodeErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $orderCode = test_input($_POST["order_code"]);
 					  }
 				
 					if (empty($_POST["status_date"])) {
-					    $statusDateErr = "Date is required";
+					    $statusDateErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $statusDate = test_input($_POST["status_date"]);
 					  }	
 					  
 					 if (empty($_POST["order_status"])) {
-					    $orderStatusErr = "Order status is required";
+					    $orderStatusErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $orderStatus = test_input($_POST["order_status"]);
@@ -148,7 +148,7 @@
 				elseif($_POST["order_action"]=="search") {
 					
 					if (empty($_POST["order_code"])) {
-					    $orderCodeErr = "Order code is required";
+					    $orderCodeErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    	$orderCode = test_input($_POST["order_code"]);
@@ -168,14 +168,14 @@
 				elseif($_POST["order_action"]=="edit") {
 					
 					if (empty($_POST["status_date"])) {
-					    $statusDateErr = "Date is required";
+					    $statusDateErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $statusDate = test_input($_POST["status_date"]);
 					  }	
 					  
 					 if (empty($_POST["order_status"])) {
-					    $orderStatusErr = "Order status is required";
+					    $orderStatusErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $orderStatus = test_input($_POST["order_status"]);
@@ -203,14 +203,14 @@
 				elseif($_POST["order_action"]=="addStatus") {
 					
 					if (empty($_POST["status_date"])) {
-					    $statusDateErr = "Date is required";
+					    $statusDateErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $statusDate = test_input($_POST["status_date"]);
 					  }	
 					  
 					 if (empty($_POST["order_status"])) {
-					    $orderStatusErr = "Order status is required";
+					    $orderStatusErr = $msg_campoObrigatorioLiteral;
 					  } 
 					  else {
 					    $orderStatus = test_input($_POST["order_status"]);
@@ -296,7 +296,7 @@
 			}
 		}
 		catch (PDOException $e){
-			$output = 'Unable to access to the database, ' . $e->getMessage();
+			$output = 'Base de dados não pode ser conectada, ' . $e->getMessage();
 			include $_SERVER['DOCUMENT_ROOT'] .'/includes/error.html.php';
 			exit();
 		}
