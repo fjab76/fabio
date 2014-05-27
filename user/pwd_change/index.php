@@ -39,12 +39,7 @@
 			<?php 
 				if ($_SERVER["REQUEST_METHOD"] == "GET") {
 					//isAnyUserLoggedIn() or die('<p class="info">Precisa fazer login para alterar a senha</p>') ;
-					//session_start();
-					echo "<p>username: {$_SESSION['username']}</p>";
-					echo "<p>session id:".session_id()."</p>";
-					echo "<pre>";
-					print_r($_SESSION);
-					echo "</pre>";
+					//session_start();					
 					if(array_key_exists('username', $_SESSION)) {			
 						$username = $_SESSION['username'];			
 					}
